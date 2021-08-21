@@ -1,11 +1,22 @@
-import styles from './index.css';
+import {Layout} from "antd";
 
-function BasicLayout(props) {
+import Header from "@/layouts/Header";
+import Footer from "@/layouts/Footer";
+
+const {Content} = Layout
+
+function BasicLayout({children, location}) {
+
+  if (location.pathname === '/login') {
+    return children
+  }
+
   return (
-    <div className={styles.normal}>
-      <h1 className={styles.title}>Yay! Welcome to umi!</h1>
-      {props.children}
-    </div>
+    <Layout className="basic-layout">
+      <Header/>
+      <Content>{children}</Content>
+      <Footer/>
+    </Layout>
   );
 }
 
