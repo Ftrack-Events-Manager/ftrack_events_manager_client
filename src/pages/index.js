@@ -36,11 +36,20 @@ const Index = () => {
         <div>
           <a>重启</a>
           <a>暂停</a>
+          <a>详情</a>
+        </div>
+      )
+    },
+    {
+      title: '编辑',
+      key: 'edit',
+      render: (text, record) => (
+        <div>
           <a>编辑</a>
           <a>删除</a>
         </div>
       )
-    }
+    },
   ]
 
 
