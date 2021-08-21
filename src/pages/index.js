@@ -1,17 +1,57 @@
-import styles from './index.css';
+/**
+ * title: 首页
+ */
 
-export default function() {
+import React from 'react';
+import {Button} from "antd";
+
+import {Content, Tool} from "@/components/Layout";
+import {Table} from "@/components/Table";
+
+
+const Index = () => {
+  const columns = [
+    {
+      title: '事件组名',
+      dataIndex: 'event_group',
+      key: 'event_group',
+      width: '22%',
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      width: '22%',
+    },
+    {
+      title: '错误数',
+      dataIndex: 'error_num',
+      key: 'error_num',
+      width: '22%',
+    },
+    {
+      title: '操作',
+      key: 'operation',
+      render: (text, record) => (
+        <div>
+          <a>重启</a>
+          <a>暂停</a>
+          <a>编辑</a>
+          <a>删除</a>
+        </div>
+      )
+    }
+  ]
+
+
   return (
-    <div className={styles.normal}>
-      <div className={styles.welcome} />
-      <ul className={styles.list}>
-        <li>To get started, edit <code>src/pages/index.js</code> and save to reload.</li>
-        <li>
-          <a href="https://umijs.org/guide/getting-started.html">
-            Getting Started
-          </a>
-        </li>
-      </ul>
-    </div>
+    <Content>
+      <Tool>
+        <Button type="primary">添加事件组</Button>
+      </Tool>
+      <Table columns={columns}/>
+    </Content>
   );
-}
+};
+
+export default Index;

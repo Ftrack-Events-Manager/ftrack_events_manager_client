@@ -1,0 +1,53 @@
+:global {
+  .basic-layout {
+    .header {
+      width: 100%;
+      height: 50px;
+      background: #001529;
+      position: relative;
+
+      .logo {
+        color: #f7f7f7;
+        height: 36px;
+        margin: 6px 15px;
+        float: left;
+        font-size: 20px;
+      }
+
+      .menus {
+        width: calc(100% - 150px);
+        height: 100%;
+        vertical-align: top;
+
+        .ant-menu-item {
+          height: 100%;
+          line-height: 50px;
+        }
+      }
+
+      .right {
+        position: absolute;
+        right: 14px;
+        top: 15px;
+        font-size: 15px;
+
+        a {
+          color: #ffffff;
+        }
+      }
+    }
+
+    .content{
+      height: calc(100vh - 120px);
+      overflow: auto;
+      display: flex;
+      flex-flow: inherit;
+    }
+
+    .footer {
+      text-align: center;
+      color: #bbbbbb;
+    }
+
+  }
+}

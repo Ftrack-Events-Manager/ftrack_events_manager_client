@@ -1,10 +1,12 @@
 import React from 'react';
+import styles from "@/pages/login/index.scss";
+import {Icon, Layout} from "antd";
 
 const Footer = () => {
   return (
-    <div>
-      底部
-    </div>
+    <Layout.Footer className={styles.footer}>
+      Copyright <Icon type="copyright"/> Ftrack Events Manager By LiaoKong
+    </Layout.Footer>
   );
 };
 
