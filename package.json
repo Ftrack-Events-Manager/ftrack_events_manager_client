@@ -40,5 +40,5 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://Ftrack-Events-Manager.github.io/ftrack_events_manager_client"
+  "homepage": "https://ftrack-events-manager.github.io/ftrack_events_manager_client/"
 }
