@@ -1,23 +1,19 @@
-name: Ftrack Event Manager
+name: github pages
+
 on:
   push:
     branches:
-      - main
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2.3.4
-      
-    - name: Install and Build
-      run: |
-          npm install
-          npm run build
+      - master # default branch
 
-    - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@4.1.4
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: docs
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run docs:build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          publish_dir: ./docs
