@@ -1,7 +1,3 @@
-import jwt from 'jwt-simple'
-
-const jwtSecret = 'ftrack events manager'
-
 export default {
   'POST /api/users/login': (req, res) => {
     const {username, password} = req.body
@@ -9,10 +5,10 @@ export default {
       return res.send({
         status: 'success',
         msg: "登录成功",
-        token: jwt.encode({
+        token: {
           userId: "admin",
-          type: "0"
-        }, jwtSecret)
+          type: 0
+        }
       })
     }
     return res.send({

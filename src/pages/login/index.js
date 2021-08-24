@@ -5,7 +5,6 @@
 import React from 'react';
 import {router} from "umi";
 import {Layout, Icon, Form, Input, Button, Message} from "antd";
-import jwt from 'jwt-simple'
 
 import styles from './index.scss'
 import {login} from './services/login'
@@ -13,7 +12,6 @@ import {login} from './services/login'
 const {Content, Footer} = Layout
 const {Item} = Form
 const iconStyle = {color: "rgba(0,0,0,.25)"}
-const jwtSecret = 'ftrack events manager'
 
 const Index = ({form}) => {
   const handleSubmit = () => {
@@ -22,11 +20,9 @@ const Index = ({form}) => {
       if (!err) {
         login(values).then(res => {
           if (res.status === "success") {
-            console.log(res.token);
-            const token = jwt.decode(res.token, jwtSecret)
-            const {userId, type} = token
+            const {userId, type} = res.token
             localStorage.setItem('usernmame', userId)
-            localStorage.setItem('authority', type === '0' ? 'admin' : 'user')
+            localStorage.setItem('authority', type === 0 ? 'admin' : 'user')
             router.push('/')
           } else {
             Message.error(res ? res.msg : "登录失败")
