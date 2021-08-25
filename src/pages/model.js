@@ -24,8 +24,7 @@ export default {
     setup({dispatch, history}) {
       return history.listen(({pathname}) => {
         if (pathname === '/') {
-          // todo 后端实现这个接口
-          // dispatch({type: "fetch"})
+          dispatch({type: "fetch"})
         }
       })
     }
