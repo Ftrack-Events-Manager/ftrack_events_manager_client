@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {Form, Input, Button, Table, Switch, InputNumber} from "antd";
+import {ReloadOutlined} from "@ant-design/icons"
 import {connect} from 'dva';
 import {router} from "umi";
 
@@ -36,6 +37,10 @@ class $id$ extends Component {
   handleSubmit = () => {
     console.log(this.props.tableSelectionData)
     // todo 去服务器请求，创建事件组
+  }
+
+  handleRefresh = () => {
+    // todo 重新获取未被使用的列表并刷新table
   }
 
   render() {
@@ -85,7 +90,9 @@ class $id$ extends Component {
                   })(<Input placeholder="请输入事件名"/>)
                 }
               </FormItem>
-              <FormItem label="选择事件">
+              <FormItem>
+                <Button onClick={this.handleRefresh}
+                        style={{float: 'right', marginBottom: '6px', marginRight: '10px'}}><ReloadOutlined/>刷新</Button>
                 <Table rowSelection={{
                   type: 'checkbox',
                   onChange: this.tableSelectionOnChange
@@ -95,9 +102,9 @@ class $id$ extends Component {
                        pagination={{position: ['none', 'none']}}/>
               </FormItem>
               <FormItem style={{float: 'right'}}>
-                <Button style={{marginRight: '10px'}} size="large"
+                <Button style={{marginRight: '10px', width: '100px'}} size="large"
                         onClick={() => router.push('/')}>取消</Button>
-                <Button type="primary" style={{marginRight: '60px'}}
+                <Button type="primary" style={{marginRight: '20px', width: '100px'}}
                         size="large" onClick={this.handleSubmit}>创建</Button>
               </FormItem>
             </Form>
