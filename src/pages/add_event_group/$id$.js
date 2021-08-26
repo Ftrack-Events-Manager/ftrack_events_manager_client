@@ -42,8 +42,8 @@ class $id$ extends Component {
     const columns = [
       {
         title: '事件名',
-        dataIndex: 'event',
-        key: 'event',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         title: '优先级',
