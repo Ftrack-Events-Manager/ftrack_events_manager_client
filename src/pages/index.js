@@ -22,8 +22,8 @@ const Index = ({events}) => {
   const columns = [
     {
       title: '事件组名',
-      dataIndex: 'group',
-      key: 'group',
+      dataIndex: 'name',
+      key: 'name',
       width: '15%',
     },
     {
