@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {Form, Input, Button, Table, Switch, InputNumber} from "antd";
+import {Form, Input, Button, Table, Switch, InputNumber, Message} from "antd";
 import {ReloadOutlined} from "@ant-design/icons"
 import {connect} from 'dva';
 import {router} from "umi";
@@ -40,7 +40,9 @@ class $id$ extends Component {
   }
 
   handleRefresh = () => {
-    // todo 重新获取未被使用的列表并刷新table
+    this.props.dispatch({type: 'add_event_group/fetch'}).then(
+      Message.success('刷新成功')
+    )
   }
 
   render() {
@@ -92,7 +94,12 @@ class $id$ extends Component {
               </FormItem>
               <FormItem>
                 <Button onClick={this.handleRefresh}
-                        style={{float: 'right', marginBottom: '6px', marginRight: '10px'}}><ReloadOutlined/>刷新</Button>
+                        style={{
+                          float: 'right',
+                          marginRight: '10px'
+                        }}><ReloadOutlined/>刷新</Button>
+              </FormItem>
+              <FormItem>
                 <Table rowSelection={{
                   type: 'checkbox',
                   onChange: this.tableSelectionOnChange
@@ -102,9 +109,11 @@ class $id$ extends Component {
                        pagination={{position: ['none', 'none']}}/>
               </FormItem>
               <FormItem style={{float: 'right'}}>
-                <Button style={{marginRight: '10px', width: '100px'}} size="large"
+                <Button style={{marginRight: '10px', width: '100px'}}
+                        size="large"
                         onClick={() => router.push('/')}>取消</Button>
-                <Button type="primary" style={{marginRight: '20px', width: '100px'}}
+                <Button type="primary"
+                        style={{marginRight: '20px', width: '100px'}}
                         size="large" onClick={this.handleSubmit}>创建</Button>
               </FormItem>
             </Form>

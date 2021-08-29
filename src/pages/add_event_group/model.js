@@ -8,7 +8,7 @@ export default {
   },
   reducers: {
     setData(state, {payload: {events}}) {
-      return {events};
+      return {...state, events};
     },
     updateEnabled(state, {id, isChecked}) {
       let events = state.events
