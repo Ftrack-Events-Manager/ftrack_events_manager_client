@@ -1,22 +1,22 @@
-import * as eventsServices from "@/pages/services";
+import * as groupsServices from "@/pages/services";
 
 export default {
   namespace: 'index',
   state: {
-    events: []
+    groups: []
   },
   reducers: {
-    setData(state, {payload: {events}}) {
-      return {events}
+    setData(state, {payload: {groups}}) {
+      return {groups}
     }
   },
   effects: {
-    * fetch({_}, {call, put, select}) {
-      const res = yield call(eventsServices.fetch)
+    * fetch({_}, {call, put}) {
+      const res = yield call(groupsServices.fetch)
       if (res && res.status === 'success') {
-        yield put({type: 'setData', payload: {events: res.data}})
+        yield put({type: 'setData', payload: {groups: res.data}})
       } else {
-        yield put({type: 'setData', events: []})
+        yield put({type: 'setData', groups: []})
       }
     }
   },

@@ -18,7 +18,7 @@ import {Content, Tool} from "@/components/Layout";
 import {Table} from "@/components/Table";
 
 
-const Index = ({events}) => {
+const Index = ({groups}) => {
   const columns = [
     {
       title: '事件组名',
@@ -76,7 +76,7 @@ const Index = ({events}) => {
       <Tool>
         <Button type="primary"><Link to="/add_event_group">添加事件组</Link></Button>
       </Tool>
-      <Table columns={columns} dataSource={events}
+      <Table columns={columns} dataSource={groups}
              rowKey={event => event.id}
              pagination={{position: ['none', 'none']}}/>
     </Content>

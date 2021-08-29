@@ -7,8 +7,8 @@ export default {
     tableSelectionData: []
   },
   reducers: {
-    setData(state, {payload: {events}}) {
-      return {...state, events};
+    setData(state, {payload: {events, tableSelectionData}}) {
+      return {...state, events, tableSelectionData};
     },
     updateEnabled(state, {id, isChecked}) {
       let events = state.events
@@ -37,11 +37,24 @@ export default {
   effects: {
     * fetch({_}, {call, put, select}) {
       const res = yield call(EventsServices.fetch)
+      // todo 编辑时要考虑tableSelectionData值为组内的events
       if (res && res.status === 'success') {
-        yield put({type: 'setData', payload: {events: res.data}})
+        yield put({
+          type: 'setData',
+          payload: {events: res.data, tableSelectionData: []}
+        })
       } else {
         yield put({type: 'setData', payload: {events: []}})
       }
+    },
+    * update({name}, {call, select}) {
+      const tableSelectionData = yield select(
+        state => state.add_event_group.tableSelectionData
+      )
+      yield call(EventsServices.update, {
+        name,
+        events: tableSelectionData
+      })
     }
   },
   subscriptions: {

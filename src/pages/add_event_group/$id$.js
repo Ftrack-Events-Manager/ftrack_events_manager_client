@@ -35,6 +35,17 @@ class $id$ extends Component {
   }
 
   handleSubmit = () => {
+    this.props.form.validateFields(((errors, values) => {
+      if (!errors) {
+        this.props.dispatch({
+          type: 'add_event_group/update',
+          name: values['name']
+        })
+        Message.success(`${values['name']}创建成功！`)
+        router.push('/')
+      }
+    }))
+
     console.log(this.props.tableSelectionData)
     // todo 去服务器请求，创建事件组
   }
@@ -82,7 +93,7 @@ class $id$ extends Component {
             <Form>
               <FormItem label="事件名">
                 {
-                  getFieldDecorator('group_name', {
+                  getFieldDecorator('name', {
                     rules: [
                       {
                         required: true,
