@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {Button, Tag} from "antd";
+import {Button, Tag, Popconfirm} from "antd";
 import {
   SyncOutlined,
   PoweroffOutlined,
@@ -18,7 +18,12 @@ import {Content, Tool} from "@/components/Layout";
 import {Table} from "@/components/Table";
 
 
-const Index = ({groups}) => {
+const Index = ({groups, loading}) => {
+  const handleDelete = (id) => {
+    // todo 实现删除
+  }
+  console.log(loading);
+
   const columns = [
     {
       title: '事件组名',
@@ -64,8 +69,12 @@ const Index = ({groups}) => {
       key: 'edit',
       render: (text, record) => (
         <div>
-          <a><Button type="primary" size="small">编辑</Button></a>
-          <a><Button type="danger" size="small">删除</Button></a>
+          <Button type="primary" size="small"
+                  style={{marginRight: '10px'}}>编辑</Button>
+          <Popconfirm title="确定要删除该事件组吗？"
+                      onConfirm={() => handleDelete(record.id)}>
+            <Button type="danger" size="small">删除</Button>
+          </Popconfirm>
         </div>
       )
     },
@@ -78,9 +87,13 @@ const Index = ({groups}) => {
       </Tool>
       <Table columns={columns} dataSource={groups}
              rowKey={event => event.id}
-             pagination={{position: ['none', 'none']}}/>
+             pagination={{position: ['none', 'none']}} loading={loading}/>
     </Content>
   );
 };
 
-export default connect(({index}) => ({...index}))(Index);
+export default connect(
+  ({index, loading}) => (
+    {...index, loading: loading.effects['index/fetch']}
+  )
+)(Index);

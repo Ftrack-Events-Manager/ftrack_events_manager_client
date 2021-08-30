@@ -45,9 +45,6 @@ class $id$ extends Component {
         router.push('/')
       }
     }))
-
-    console.log(this.props.tableSelectionData)
-    // todo 去服务器请求，创建事件组
   }
 
   handleRefresh = () => {
@@ -117,7 +114,9 @@ class $id$ extends Component {
                 }} columns={columns}
                        dataSource={this.props.events}
                        rowKey={event => event.id}
-                       pagination={{position: ['none', 'none']}}/>
+                       pagination={{position: ['none', 'none']}}
+                       loading={this.props.loading}
+                />
               </FormItem>
               <FormItem style={{float: 'right'}}>
                 <Button style={{marginRight: '10px', width: '100px'}}
@@ -135,4 +134,8 @@ class $id$ extends Component {
   }
 };
 
-export default connect(({add_event_group}) => ({...add_event_group}))(Form.create()($id$));
+export default connect(
+  ({add_event_group, loading}) => (
+    {...add_event_group, loading: loading.effects['add_event_group/fetch']}
+  )
+)(Form.create()($id$));

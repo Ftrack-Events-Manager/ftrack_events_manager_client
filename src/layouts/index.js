@@ -1,4 +1,5 @@
-import {Layout} from "antd";
+import {Layout, ConfigProvider} from "antd";
+import zhCN from "antd/es/locale/zh_CN"
 
 import Header from "@/layouts/Header";
 import Footer from "@/layouts/Footer";
@@ -12,11 +13,13 @@ function BasicLayout({children, location}) {
   }
 
   return (
-    <Layout className="basic-layout">
-      <Header/>
-      <Content className="content">{children}</Content>
-      <Footer/>
-    </Layout>
+    <ConfigProvider locale={zhCN}>
+      <Layout className="basic-layout">
+        <Header/>
+        <Content className="content">{children}</Content>
+        <Footer/>
+      </Layout>
+    </ConfigProvider>
   );
 }
 
