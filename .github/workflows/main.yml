@@ -16,5 +16,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
+          PUBLISH_BRANCH: build
           publish_dir: ./dist # 将哪个目录复制到PUBLISH_BRANCH分支的根目录下
