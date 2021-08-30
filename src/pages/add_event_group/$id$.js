@@ -21,24 +21,24 @@ class $id$ extends Component {
 
   tableSelectionOnChange = (electedRowKeys, selectedRows) => {
     this.props.dispatch({
-      type: 'add_event_group/tableSelectionData',
+      type: 'addEventGroup/tableSelectionData',
       tableSelectionData: selectedRows
     })
   }
 
   switchOnChange = (id, isChecked) => {
-    this.props.dispatch({type: 'add_event_group/updateEnabled', id, isChecked})
+    this.props.dispatch({type: 'addEventGroup/updateEnabled', id, isChecked})
   }
 
   inputNumberOnChange = (id, priority) => {
-    this.props.dispatch({type: 'add_event_group/updatePriority', id, priority})
+    this.props.dispatch({type: 'addEventGroup/updatePriority', id, priority})
   }
 
   handleSubmit = () => {
     this.props.form.validateFields(((errors, values) => {
       if (!errors) {
         this.props.dispatch({
-          type: 'add_event_group/update',
+          type: 'addEventGroup/update',
           name: values['name']
         })
         Message.success(`${values['name']}创建成功！`)
@@ -48,7 +48,7 @@ class $id$ extends Component {
   }
 
   handleRefresh = () => {
-    this.props.dispatch({type: 'add_event_group/fetch'}).then(
+    this.props.dispatch({type: 'addEventGroup/fetch'}).then(
       Message.success('刷新成功')
     )
   }
@@ -135,7 +135,7 @@ class $id$ extends Component {
 };
 
 export default connect(
-  ({add_event_group, loading}) => (
-    {...add_event_group, loading: loading.effects['add_event_group/fetch']}
+  ({addEventGroup, loading}) => (
+    {...addEventGroup, loading: loading.effects['addEventGroup/fetch']}
   )
 )(Form.create()($id$));

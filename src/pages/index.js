@@ -18,12 +18,16 @@ import {Content, Tool} from "@/components/Layout";
 import {Table} from "@/components/Table";
 
 
-const Index = ({groups, loading}) => {
-  const handleDelete = (id) => {
-    // todo 实现删除
+const Index = ({groups, loading, dispatch}) => {
+  const handleEdit = (group) => {
+    // todo 实现编辑
   }
-  console.log(loading);
 
+  const handleDelete = (group) => {
+    dispatch({type: 'index/deleteGroup', group})
+  }
+
+  const btnStyle = {marginRight: 8}
   const columns = [
     {
       title: '事件组名',
@@ -58,9 +62,11 @@ const Index = ({groups, loading}) => {
       key: 'operation',
       render: (text, record) => (
         <div>
-          <a><Button type="primary" size="small"><SyncOutlined/>重启</Button></a>
-          <a><Button type="primary" size="small"><PoweroffOutlined/>暂停</Button></a>
-          <a><Button type="primary" size="small"><SolutionOutlined/>详情</Button></a>
+          <Button type="primary" size="small" style={btnStyle}><SyncOutlined/>重启</Button>
+          <Button type="primary" size="small"
+                  style={btnStyle}><PoweroffOutlined/>暂停</Button>
+          <Button type="primary" size="small"
+                  style={btnStyle}><SolutionOutlined/>详情</Button>
         </div>
       )
     },
@@ -69,10 +75,10 @@ const Index = ({groups, loading}) => {
       key: 'edit',
       render: (text, record) => (
         <div>
-          <Button type="primary" size="small"
-                  style={{marginRight: '10px'}}>编辑</Button>
+          <Button type="primary" size="small" style={btnStyle}
+                  onClick={() => handleEdit(record)}>编辑</Button>
           <Popconfirm title="确定要删除该事件组吗？"
-                      onConfirm={() => handleDelete(record.id)}>
+                      onConfirm={() => handleDelete(record)}>
             <Button type="danger" size="small">删除</Button>
           </Popconfirm>
         </div>

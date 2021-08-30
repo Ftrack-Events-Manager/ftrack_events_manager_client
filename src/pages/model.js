@@ -16,7 +16,16 @@ export default {
       if (res && res.status === 'success') {
         yield put({type: 'setData', payload: {groups: res.data}})
       } else {
-        yield put({type: 'setData', groups: []})
+        yield put({type: 'setData', payload: {groups: []}})
+      }
+    },
+    * deleteGroup({group}, {call, put}) {
+      if (group['status'] === 'run') {
+        yield call(groupsServices.stopGroup, group['id'])
+      }
+      const res = yield call(groupsServices.deleteGroup, group['id'])
+      if (res && res.status === 'success') {
+        yield put({type: 'setData', payload: {groups: res.data}})
       }
     }
   },

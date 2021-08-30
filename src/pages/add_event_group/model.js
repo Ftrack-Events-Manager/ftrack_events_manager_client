@@ -1,7 +1,7 @@
 import * as EventsServices from './services'
 
 export default {
-  namespace: 'add_event_group',
+  namespace: 'addEventGroup',
   state: {
     events: [],
     tableSelectionData: []
@@ -49,7 +49,7 @@ export default {
     },
     * update({name}, {call, select}) {
       const tableSelectionData = yield select(
-        state => state.add_event_group.tableSelectionData
+        state => state.addEventGroup.tableSelectionData
       )
       yield call(EventsServices.update, {
         name,
