@@ -19,26 +19,33 @@ class $id$ extends Component {
     this.id = props.match.params.id
   }
 
-  tableSelectionOnChange = (electedRowKeys, selectedRows) => {
+  componentDidMount() {
+    if (this.id) {
+      this.props.dispatch({type: 'group/fetchInfo', id: this.id})
+    }
+  }
+
+  tableSelectionOnChange = (selectedRowKeys, selectedRows) => {
     this.props.dispatch({
-      type: 'addEventGroup/tableSelectionData',
-      tableSelectionData: selectedRows
+      type: 'group/tableSelectionData',
+      tableSelectionData: selectedRows,
+      selectedRowKeys: selectedRowKeys
     })
   }
 
   switchOnChange = (id, isChecked) => {
-    this.props.dispatch({type: 'addEventGroup/updateEnabled', id, isChecked})
+    this.props.dispatch({type: 'group/updateEnabled', id, isChecked})
   }
 
   inputNumberOnChange = (id, priority) => {
-    this.props.dispatch({type: 'addEventGroup/updatePriority', id, priority})
+    this.props.dispatch({type: 'group/updatePriority', id, priority})
   }
 
   handleSubmit = () => {
     this.props.form.validateFields(((errors, values) => {
       if (!errors) {
         this.props.dispatch({
-          type: 'addEventGroup/update',
+          type: 'group/update',
           name: values['name']
         })
         Message.success(`${values['name']}创建成功！`)
@@ -48,7 +55,7 @@ class $id$ extends Component {
   }
 
   handleRefresh = () => {
-    this.props.dispatch({type: 'addEventGroup/fetch'}).then(
+    this.props.dispatch({type: 'group/fetch'}).then(
       Message.success('刷新成功')
     )
   }
@@ -96,7 +103,8 @@ class $id$ extends Component {
                         required: true,
                         message: '请输入事件名'
                       }
-                    ]
+                    ],
+                    initialValue: this.props.name
                   })(<Input placeholder="请输入事件名"/>)
                 }
               </FormItem>
@@ -110,7 +118,8 @@ class $id$ extends Component {
               <FormItem>
                 <Table rowSelection={{
                   type: 'checkbox',
-                  onChange: this.tableSelectionOnChange
+                  onChange: this.tableSelectionOnChange,
+                  selectedRowKeys: this.props.selectedRowKeys
                 }} columns={columns}
                        dataSource={this.props.events}
                        rowKey={event => event.id}
@@ -135,7 +144,7 @@ class $id$ extends Component {
 };
 
 export default connect(
-  ({addEventGroup, loading}) => (
-    {...addEventGroup, loading: loading.effects['addEventGroup/fetch']}
+  ({group, loading}) => (
+    {...group, loading: loading.effects['group/fetch']}
   )
 )(Form.create()($id$));

@@ -12,17 +12,13 @@ import {
   CloseCircleOutlined
 } from "@ant-design/icons"
 import {connect} from 'dva'
-import {Link} from 'umi'
+import {Link, router} from 'umi'
 
 import {Content, Tool} from "@/components/Layout";
 import {Table} from "@/components/Table";
 
 
 const Index = ({groups, loading, dispatch}) => {
-  const handleEdit = (group) => {
-    // todo 实现编辑
-  }
-
   const handleDelete = (group) => {
     dispatch({type: 'index/deleteGroup', group})
   }
@@ -76,7 +72,7 @@ const Index = ({groups, loading, dispatch}) => {
       render: (text, record) => (
         <div>
           <Button type="primary" size="small" style={btnStyle}
-                  onClick={() => handleEdit(record)}>编辑</Button>
+                  onClick={() => router.push(`/group/${record.id}`)}>编辑</Button>
           <Popconfirm title="确定要删除该事件组吗？"
                       onConfirm={() => handleDelete(record)}>
             <Button type="danger" size="small">删除</Button>
@@ -89,7 +85,7 @@ const Index = ({groups, loading, dispatch}) => {
   return (
     <Content>
       <Tool>
-        <Button type="primary"><Link to="/add_event_group">添加事件组</Link></Button>
+        <Button type="primary"><Link to="/group">添加事件组</Link></Button>
       </Tool>
       <Table columns={columns} dataSource={groups}
              rowKey={event => event.id}

@@ -10,3 +10,10 @@ export function update(pragmas) {
     body: JSON.stringify(pragmas)
   })
 }
+
+export function fetchInfo(pragmas) {
+  return request('/api/groups/get_group_info', {
+    method: 'POST',
+    body: JSON.stringify(pragmas)
+  })
+}
