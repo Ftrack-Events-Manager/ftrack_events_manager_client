@@ -3,12 +3,21 @@
  */
 
 import React, {Component} from 'react';
-import {Form, Input, Button, Table, Switch, InputNumber, Message} from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Table,
+  Switch,
+  InputNumber,
+  Message,
+  Modal
+} from "antd";
 import {ReloadOutlined} from "@ant-design/icons"
 import {connect} from 'dva';
 import {router} from "umi";
 
-import {Content, Tool} from "@/components/Layout";
+import {Content} from "@/components/Layout";
 
 const FormItem = Form.Item
 
@@ -46,10 +55,14 @@ class $id$ extends Component {
       if (!errors) {
         this.props.dispatch({
           type: 'group/update',
-          name: values['name']
+          name: values['name'],
+          id: this.id
         })
-        Message.success(`${values['name']}创建成功！`)
-        router.push('/')
+        Message.success(`${values['name']}${this.id ? "更新" : "创建"}成功！`)
+        this.props.dispatch({
+          type: 'group/setModal',
+          payload: {modalVisible: true}
+        })
       }
     }))
   }
@@ -58,6 +71,35 @@ class $id$ extends Component {
     this.props.dispatch({type: 'group/fetch'}).then(
       Message.success('刷新成功')
     )
+  }
+
+  handleModalOk = () => {
+    this.props.dispatch({type: 'group/setModal', payload: {modalLoading: true}})
+    this.props.dispatch({
+      type: 'index/restartGroup',
+      id: this.id
+    }).then(() => {
+      Message.success(`事件${this.id ? "重启" : "启动"}成功！`)
+      this.props.dispatch({
+        type: 'group/setModal',
+        payload: {
+          modalLoading: false,
+          modalVisible: false
+        }
+      })
+      router.push('/')
+    })
+  }
+
+  handleCancel = () => {
+    this.props.dispatch({
+      type: 'group/setModal',
+      payload: {
+        modalLoading: false,
+        modalVisible: false
+      }
+    })
+    router.push('/')
   }
 
   render() {
@@ -89,54 +131,64 @@ class $id$ extends Component {
     ]
 
     const {getFieldDecorator} = this.props.form
+    const {modalVisible, modalLoading} = this.props
 
     return (
       <div>
         <Content>
-          <Tool>
-            <Form>
-              <FormItem label="事件名">
-                {
-                  getFieldDecorator('name', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入事件名'
-                      }
-                    ],
-                    initialValue: this.props.name
-                  })(<Input placeholder="请输入事件名"/>)
-                }
-              </FormItem>
-              <FormItem>
-                <Button onClick={this.handleRefresh}
-                        style={{
-                          float: 'right',
-                          marginRight: '10px'
-                        }}><ReloadOutlined/>刷新</Button>
-              </FormItem>
-              <FormItem>
-                <Table rowSelection={{
-                  type: 'checkbox',
-                  onChange: this.tableSelectionOnChange,
-                  selectedRowKeys: this.props.selectedRowKeys
-                }} columns={columns}
-                       dataSource={this.props.events}
-                       rowKey={event => event.id}
-                       pagination={{position: ['none', 'none']}}
-                       loading={this.props.loading}
-                />
-              </FormItem>
-              <FormItem style={{float: 'right'}}>
-                <Button style={{marginRight: '10px', width: '100px'}}
-                        size="large"
-                        onClick={() => router.push('/')}>取消</Button>
-                <Button type="primary"
-                        style={{marginRight: '20px', width: '100px'}}
-                        size="large" onClick={this.handleSubmit}>创建</Button>
-              </FormItem>
-            </Form>
-          </Tool>
+          <Form style={{margin: 26}}>
+            <FormItem label="事件名">
+              {
+                getFieldDecorator('name', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入事件名'
+                    }
+                  ],
+                  initialValue: this.props.name
+                })(<Input placeholder="请输入事件名"/>)
+              }
+            </FormItem>
+            <FormItem>
+              <Button onClick={this.handleRefresh}
+                      style={{
+                        float: 'right',
+                        marginRight: '10px'
+                      }}><ReloadOutlined/>刷新</Button>
+            </FormItem>
+            <FormItem>
+              <Table rowSelection={{
+                type: 'checkbox',
+                onChange: this.tableSelectionOnChange,
+                selectedRowKeys: this.props.selectedRowKeys
+              }} columns={columns}
+                     dataSource={this.props.events}
+                     rowKey={event => event.id}
+                     pagination={{position: ['none', 'none']}}
+                     loading={this.props.loading}
+              />
+            </FormItem>
+            <FormItem style={{float: 'right'}}>
+              <Button style={{marginRight: '10px', width: '100px'}}
+                      size="large"
+                      onClick={() => router.push('/')}>取消</Button>
+              <Button type="primary"
+                      style={{marginRight: '20px', width: '100px'}}
+                      size="large"
+                      onClick={this.handleSubmit}>{this.id ? "更新" : "创建"}</Button>
+            </FormItem>
+          </Form>
+          <Modal
+            title="Title"
+            visible={modalVisible}
+            onOk={this.handleModalOk}
+            confirmLoading={modalLoading}
+            onCancel={this.handleCancel}
+            maskClosable={false}
+            closable={false}>
+            <p>是否要{this.id ? '重启' : '启动'}该事件？</p>
+          </Modal>
         </Content>
       </div>
     );

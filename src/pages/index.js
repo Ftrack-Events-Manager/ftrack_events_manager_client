@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {Button, Tag, Popconfirm} from "antd";
+import {Button, Tag, Popconfirm, Message} from "antd";
 import {
   SyncOutlined,
   PoweroffOutlined,
@@ -21,6 +21,20 @@ import {Table} from "@/components/Table";
 const Index = ({groups, loading, dispatch}) => {
   const handleDelete = (group) => {
     dispatch({type: 'index/deleteGroup', group})
+  }
+
+  const handleRestartGroup = (id) => {
+    dispatch({type: 'index/restartGroup', id}).then(() => {
+      dispatch({type: 'index/fetch'})
+      Message.success('已成功启动事件')
+    })
+  }
+
+  const handleStopGroup = (id) => {
+    dispatch({type: 'index/stopGroup', id}).then(() => {
+      dispatch({type: 'index/fetch'})
+      Message.success('已成功停止事件')
+    })
   }
 
   const btnStyle = {marginRight: 8}
@@ -58,9 +72,15 @@ const Index = ({groups, loading, dispatch}) => {
       key: 'operation',
       render: (text, record) => (
         <div>
-          <Button type="primary" size="small" style={btnStyle}><SyncOutlined/>重启</Button>
           <Button type="primary" size="small"
-                  style={btnStyle}><PoweroffOutlined/>暂停</Button>
+                  style={btnStyle}
+                  onClick={() => handleRestartGroup(record.id)}>
+            <SyncOutlined/>{record.status === 'run' ? '重启' : '启动'}
+          </Button>
+          <Button type="primary" size="small"
+                  style={btnStyle}
+                  onClick={() => handleStopGroup(record.id)}>
+            <PoweroffOutlined/>暂停</Button>
           <Button type="primary" size="small"
                   style={btnStyle}><SolutionOutlined/>详情</Button>
         </div>

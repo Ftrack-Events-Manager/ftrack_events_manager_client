@@ -6,11 +6,22 @@ export default {
     name: '',
     events: [],
     tableSelectionData: [],
-    selectedRowKeys: []
+    selectedRowKeys: [],
+    modalVisible: false,
+    modalLoading: false
   },
   reducers: {
     setData(state, {payload: {name, events, tableSelectionData, selectedRowKeys}}) {
-      return {...state, name, events, tableSelectionData, selectedRowKeys};
+      return {
+        ...state,
+        name,
+        events,
+        tableSelectionData,
+        selectedRowKeys
+      };
+    },
+    setModal(state, {payload}) {
+      return {...state, ...payload}
     },
     updateEnabled(state, {id, isChecked}) {
       let events = state.events
@@ -34,7 +45,7 @@ export default {
     },
     tableSelectionData(state, {tableSelectionData, selectedRowKeys}) {
       return {...state, tableSelectionData, selectedRowKeys}
-    }
+    },
   },
   effects: {
     * fetch({_}, {call, put, select}) {
@@ -48,17 +59,27 @@ export default {
         yield put({type: 'setData', payload: {events: []}})
       }
     },
-    * update({name}, {call, select}) {
+    * update({name, id}, {call, select}) {
       // todo 编辑更新
       const tableSelectionData = yield select(
         state => state.group.tableSelectionData
       )
       yield call(groupServices.update, {
         name,
-        events: tableSelectionData
+        events: tableSelectionData,
+        id
       })
     },
     * fetchInfo({id}, {call, put}) {
+      yield put({
+        type: 'setData',
+        payload: {
+          name: '',
+          events: [],
+          tableSelectionData: [],
+          selectedRowKeys: []
+        }
+      })
       const res = yield call(groupServices.fetchInfo, {id})
       if (res && res.status === 'success') {
         const eventsRes = yield call(groupServices.fetch)
@@ -68,7 +89,7 @@ export default {
             name: res.data['name'],
             events: [...res.data['events'], ...eventsRes.data],
             tableSelectionData: res.data['events'],
-            selectedRowKeys: res.data['events'].map(v => v['id'])
+            selectedRowKeys: res.data['events'].map(v => v['id']),
           }
         })
       }

@@ -11,9 +11,17 @@ export function stopGroup(id) {
   })
 }
 
+export function restartGroup(id) {
+  return request('/api/operate/restart_group', {
+    method: 'POST',
+    body: JSON.stringify({id})
+  })
+}
+
 export function deleteGroup(id) {
   return request('/api/groups/delete_group', {
     method: 'POST',
     body: JSON.stringify({id})
   })
 }
+

@@ -5,7 +5,7 @@ export function fetch() {
 }
 
 export function update(pragmas) {
-  return request('/api/groups/add_group', {
+  return request('/api/groups/update_group', {
     method: 'POST',
     body: JSON.stringify(pragmas)
   })

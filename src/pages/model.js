@@ -27,6 +27,12 @@ export default {
       if (res && res.status === 'success') {
         yield put({type: 'setData', payload: {groups: res.data}})
       }
+    },
+    * restartGroup({id}, {call}) {
+      yield call(groupsServices.restartGroup, id)
+    },
+    * stopGroup({id}, {call}) {
+      yield call(groupsServices.stopGroup, id)
     }
   },
   subscriptions: {
