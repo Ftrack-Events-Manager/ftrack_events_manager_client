@@ -40,6 +40,18 @@ export default {
   },
   effects: {
     * fetch({_}, {call, put, select}) {
+      yield put({
+        type: 'setData',
+        payload: {
+          name: '',
+          events: [],
+          tableSelectionData: [],
+          selectedRowKeys: [],
+          modalVisible: false,
+          modalLoading: false
+        }
+      })
+
       const res = yield call(groupServices.fetch)
       if (res && res.status === 'success') {
         yield put({
