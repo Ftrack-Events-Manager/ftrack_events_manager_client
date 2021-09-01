@@ -68,7 +68,9 @@ export default {
           name: '',
           events: [],
           tableSelectionData: [],
-          selectedRowKeys: []
+          selectedRowKeys: [],
+          modalVisible: false,
+          modalLoading: false
         }
       })
       const res = yield call(groupServices.fetchInfo, {id})
