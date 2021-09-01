@@ -60,7 +60,7 @@ class $id$ extends Component {
         })
         Message.success(`${values['name']}${this.id ? "更新" : "创建"}成功！`)
         this.props.dispatch({
-          type: 'group/setModal',
+          type: 'group/setData',
           payload: {modalVisible: true}
         })
       }
@@ -74,14 +74,14 @@ class $id$ extends Component {
   }
 
   handleModalOk = () => {
-    this.props.dispatch({type: 'group/setModal', payload: {modalLoading: true}})
+    this.props.dispatch({type: 'group/setData', payload: {modalLoading: true}})
     this.props.dispatch({
       type: 'index/restartGroup',
       id: this.id
     }).then(() => {
       Message.success(`事件${this.id ? "重启" : "启动"}成功！`)
       this.props.dispatch({
-        type: 'group/setModal',
+        type: 'group/setData',
         payload: {
           modalLoading: false,
           modalVisible: false
@@ -93,7 +93,7 @@ class $id$ extends Component {
 
   handleCancel = () => {
     this.props.dispatch({
-      type: 'group/setModal',
+      type: 'group/setData',
       payload: {
         modalLoading: false,
         modalVisible: false

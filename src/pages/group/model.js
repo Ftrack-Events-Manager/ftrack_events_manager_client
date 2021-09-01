@@ -11,17 +11,8 @@ export default {
     modalLoading: false
   },
   reducers: {
-    setData(state, {payload: {name, events, tableSelectionData, selectedRowKeys}}) {
-      return {
-        ...state,
-        name,
-        events,
-        tableSelectionData,
-        selectedRowKeys
-      };
-    },
-    setModal(state, {payload}) {
-      return {...state, ...payload}
+    setData(state, {payload}) {
+      return {...state, ...payload};
     },
     updateEnabled(state, {id, isChecked}) {
       let events = state.events
