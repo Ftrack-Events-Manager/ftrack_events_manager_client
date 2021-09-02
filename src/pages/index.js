@@ -82,7 +82,9 @@ const Index = ({groups, loading, dispatch}) => {
                   onClick={() => handleStopGroup(record.id)}>
             <PoweroffOutlined/>暂停</Button>
           <Button type="primary" size="small"
-                  style={btnStyle}><SolutionOutlined/>详情</Button>
+                  style={btnStyle}
+                  onClick={() => router.push(`/detail/${record.id}`)}>
+            <SolutionOutlined/>详情</Button>
         </div>
       )
     },
