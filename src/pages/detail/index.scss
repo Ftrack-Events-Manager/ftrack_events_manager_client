@@ -1,0 +1,30 @@
+.number {
+  text-align: center;
+  height: 180px;
+
+  .title {
+    font-size: 18px;
+  }
+
+  .text {
+    font-size: 56px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .run {
+    color: rgb(135, 208, 104);
+  }
+
+  .stop {
+    color: #faad14;
+  }
+
+  .warning {
+    color: hotpink;
+  }
+
+  .error {
+    color: red;
+  }
+}
