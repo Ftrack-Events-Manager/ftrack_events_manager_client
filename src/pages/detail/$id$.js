@@ -17,6 +17,13 @@ class $id$ extends Component {
     this.id = props.match.params.id
   }
 
+  componentDidMount() {
+    // todo 如果当前时间是今天，就定时刷新log
+    if (this.id) {
+      this.props.dispatch({type: 'detail/initData', id: this.id})
+    }
+  }
+
   handleDatePicker(date) {
     if (date) {
       this.props.dispatch({
@@ -102,8 +109,12 @@ class $id$ extends Component {
           <Row>
             <Col>
               <div className={styles.textarea}>
-                {this.props.logs.map(log => <p
-                  className={`${styles.log} ${styles[colorType['error']]}`}>{log}</p>)}
+                {this.props.logs.map(log =>
+                  <p key={log.id}
+                     className={`${styles.log} ${styles[colorType[log.type]]}`}
+                     dangerouslySetInnerHTML={{__html: log.msg}}
+                  />
+                )}
               </div>
             </Col>
           </Row>

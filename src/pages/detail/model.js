@@ -21,16 +21,16 @@ export default {
   },
   effects: {
     * initData({id}, {put}) {
+      // todo 默认时间没设置
       const today = new Date()
-      const month = today.getMonth() > 9 ? today.getMonth() : '0' + today.getMonth()
-      const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
+      const month = today.getMonth() + 1 > 9 ? today.getMonth() + 1 : `0${today.getMonth() + 1}`
+      const day = today.getDate() > 9 ? today.getDate() : `0${today.getDate()}`
       const logDate = `${today.getFullYear()}/${month}/${day}`
-
       yield put({
         type: 'setData',
         payload: {
           onlyShowError: false,
-          logs: ['aaaa', 'bbbb', 'cccc', 'ddddd', 'eeee'],
+          logs: [],
           logDate
         }
       })
@@ -51,11 +51,21 @@ export default {
       const res = yield call(detailServices.getGroupLogs, {
         id, logDate, onlyShowError
       })
+      if (res && res.status === 'success') {
+        const oldLogs = select(state => state.detail.logs)
+        const {logs, errorLogCount, warningLogCount} = res.data
+        if (oldLogs !== logs) {
+          yield put({
+            type: 'setData',
+            payload: {logs, errorLogCount, warningLogCount}
+          })
+        }
+      }
     },
 
     * handleChanged({id, payload}, {call, put}) {
       yield put({type: 'setData', payload: {...payload}})
-      yield call({type: 'getGroupLogs', id})
+      yield put({type: 'getGroupLogs', id})
     }
   },
   subscriptions: {

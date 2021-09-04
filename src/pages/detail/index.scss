@@ -36,12 +36,14 @@
   border: 1px solid #40a9ff;
   border-radius: 6px;
   padding: 6px;
+  overflow: auto;
 
   .log {
     font-size: 16px;
-    padding: 5px 10px;
-    line-height: 5px;
+    padding: 2px 16px;
+    line-height: 24px;
     font-weight: bold;
+    letter-spacing: 1px;
   }
 
   .logInfo {
