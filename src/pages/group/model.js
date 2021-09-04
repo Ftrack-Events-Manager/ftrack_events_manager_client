@@ -63,14 +63,11 @@ export default {
       }
     },
     * update({name, id}, {call, select}) {
-      // todo 编辑更新
       const tableSelectionData = yield select(
         state => state.group.tableSelectionData
       )
       yield call(groupServices.update, {
-        name,
-        events: tableSelectionData,
-        id
+        name, events: tableSelectionData, id
       })
     },
     * fetchInfo({id}, {call, put}) {

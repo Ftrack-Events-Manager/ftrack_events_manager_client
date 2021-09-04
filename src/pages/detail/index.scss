@@ -29,3 +29,34 @@
     color: red;
   }
 }
+
+.textarea {
+  height: 580px;
+  margin-top: 6px;
+  border: 1px solid #40a9ff;
+  border-radius: 6px;
+  padding: 6px;
+
+  .log {
+    font-size: 16px;
+    padding: 5px 10px;
+    line-height: 5px;
+    font-weight: bold;
+  }
+
+  .logInfo {
+    color: #222222;
+  }
+
+  .logWarning {
+    color: #faad14;
+  }
+
+  .logError {
+    color: hotpink;
+  }
+
+  .logException {
+    color: red;
+  }
+}

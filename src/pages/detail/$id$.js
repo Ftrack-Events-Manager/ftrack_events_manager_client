@@ -1,18 +1,48 @@
+/**
+ * title: 事件详情
+ */
 import React, {Component} from 'react';
 import {connect} from 'dva'
-import {Card, Row, Col, Switch, DatePicker, Input} from 'antd'
+import {Card, Row, Col, Switch, DatePicker} from 'antd'
 import moment from 'moment';
 
 import {Content} from "@/components/Layout";
 import styles from './index.scss'
 
-const {TextArea} = Input
 
-class $Id extends Component {
+class $id$ extends Component {
+  constructor(props) {
+    super(props);
+
+    this.id = props.match.params.id
+  }
+
+  handleDatePicker(date) {
+    if (date) {
+      this.props.dispatch({
+        type: 'detail/handleChanged',
+        id: this.id,
+        payload: {logDate: date.format('YYYY/MM/DD')}
+      })
+    }
+  }
+
+  handleSwitch(checked) {
+    this.props.dispatch({
+      type: 'detail/handleChanged',
+      id: this.id,
+      payload: {onlyShowError: checked}
+    })
+  }
+
   render() {
     const colStyle = {marginTop: 20, display: "flex", alignItems: "center"}
-    const today = new Date()
-    const todayStr = `${today.getFullYear()}/${today.getMonth()}/${today.getDate()}`
+    const colorType = {
+      info: 'logInfo',
+      warning: 'logWarning',
+      error: 'logError',
+      exception: 'logException'
+    }
     return (
       <div>
         <Content>
@@ -20,25 +50,33 @@ class $Id extends Component {
             <Col span={6}>
               <Card className={styles.number}>
                 <p className={styles.title}>运行事件数</p>
-                <p className={`${styles.text} ${styles.run}`}>8</p>
+                <p className={`${styles.text} ${styles.run}`}>
+                  {this.props.runEventsCount}
+                </p>
               </Card>
             </Col>
             <Col span={6}>
               <Card className={styles.number}>
                 <p className={styles.title}>暂停事件数</p>
-                <p className={`${styles.text} ${styles.stop}`}>2</p>
+                <p className={`${styles.text} ${styles.stop}`}>
+                  {this.props.stopEventsCount}
+                </p>
               </Card>
             </Col>
             <Col span={6}>
               <Card className={styles.number}>
                 <p className={styles.title}>日志警告数</p>
-                <p className={`${styles.text} ${styles.warning}`}>2</p>
+                <p className={`${styles.text} ${styles.warning}`}>
+                  {this.props.warningLogCount}
+                </p>
               </Card>
             </Col>
             <Col span={6}>
               <Card className={styles.number}>
                 <p className={styles.title}>日志错误数</p>
-                <p className={`${styles.text} ${styles.error}`}>12</p>
+                <p className={`${styles.text} ${styles.error}`}>
+                  {this.props.errorLogCount}
+                </p>
               </Card>
             </Col>
           </Row>
@@ -51,18 +89,22 @@ class $Id extends Component {
             <Col span={4} style={{marginTop: 25}}>
               <p style={{display: "flex", alignItems: "center"}}>
                 <span style={{marginRight: 12, fontSize: 15}}>只显示错误日志</span>
-                <Switch checkedChildren="开启" unCheckedChildren="关闭"/></p>
+                <Switch checkedChildren="开启" unCheckedChildren="关闭"
+                        defaultChecked={this.props.onlyShowError}
+                        onChange={(checked => this.handleSwitch(checked))}/></p>
             </Col>
             <Col span={3} style={colStyle}>
               <DatePicker format='YYYY/MM/DD'
-                          defaultValue={moment(todayStr, 'YYYY/MM/DD')}/>
+                          defaultValue={moment(this.props.logDate, 'YYYY/MM/DD')}
+                          onChange={(date) => this.handleDatePicker(date)}/>
             </Col>
           </Row>
           <Row>
             <Col>
-              <TextArea
-                style={{height: 580, marginTop: 10, resize: "none"}}
-                readonly="readonly"/>
+              <div className={styles.textarea}>
+                {this.props.logs.map(log => <p
+                  className={`${styles.log} ${styles[colorType['error']]}`}>{log}</p>)}
+              </div>
             </Col>
           </Row>
         </Content>
@@ -71,4 +113,4 @@ class $Id extends Component {
   }
 }
 
-export default connect(({detail}) => ({...detail}))($Id);
+export default connect(({detail}) => ({...detail}))($id$);
