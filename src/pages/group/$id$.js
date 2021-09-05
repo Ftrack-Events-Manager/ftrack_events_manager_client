@@ -66,10 +66,14 @@ class $id$ extends Component {
             id: this.id
           }).then(() => {
             Message.success(`${values['name']}${this.id ? "更新" : "创建"}成功！`)
-            this.props.dispatch({
-              type: 'group/setData',
-              payload: {modalVisible: true}
-            })
+            if (this.id) {
+              this.props.dispatch({
+                type: 'group/setData',
+                payload: {modalVisible: true}
+              })
+            } else {
+              router.push('/')
+            }
           })
         })
       }
