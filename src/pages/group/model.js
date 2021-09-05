@@ -1,17 +1,20 @@
 import * as groupServices from './services'
 import * as groupsServices from '../services'
 
+const initState = {
+  name: '',
+  events: [],
+  tableSelectionData: [],
+  selectedRowKeys: [],
+  modalVisible: false,
+  modalLoading: false,
+  groupNames: [],
+}
+
+
 export default {
   namespace: 'group',
-  state: {
-    name: '',
-    events: [],
-    tableSelectionData: [],
-    selectedRowKeys: [],
-    modalVisible: false,
-    modalLoading: false,
-    groupNames: [],
-  },
+  state: initState,
   reducers: {
     setData(state, {payload}) {
       return {...state, ...payload};
@@ -44,15 +47,7 @@ export default {
     * fetch({_}, {call, put, select}) {
       yield put({
         type: 'setData',
-        payload: {
-          name: '',
-          events: [],
-          tableSelectionData: [],
-          selectedRowKeys: [],
-          modalVisible: false,
-          modalLoading: false,
-          groupNames: [],
-        }
+        payload: initState
       })
 
       const res = yield call(groupServices.fetch)
@@ -76,14 +71,7 @@ export default {
     * fetchInfo({id}, {call, put}) {
       yield put({
         type: 'setData',
-        payload: {
-          name: '',
-          events: [],
-          tableSelectionData: [],
-          selectedRowKeys: [],
-          modalVisible: false,
-          modalLoading: false
-        }
+        payload: initState
       })
       const res = yield call(groupServices.fetchInfo, {id})
       if (res && res.status === 'success') {
