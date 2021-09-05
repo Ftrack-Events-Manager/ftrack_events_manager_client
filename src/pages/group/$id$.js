@@ -56,7 +56,7 @@ class $id$ extends Component {
         this.props.dispatch({
           type: 'group/getGroupNames'
         }).then(() => {
-          if (this.props.groupNames.filter(e => e === values['name']).length > 0) {
+          if (this.props.groupNames.filter(e => e === values['name']).length > 0 && !this.id) {
             return Message.error('当前事件组名称已存在')
           }
 
