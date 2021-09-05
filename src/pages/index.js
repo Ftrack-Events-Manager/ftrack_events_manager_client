@@ -72,17 +72,14 @@ const Index = ({groups, loading, dispatch}) => {
       key: 'operation',
       render: (text, record) => (
         <div>
-          <Button type="primary" size="small"
-                  style={btnStyle}
+          <Button type="primary" size="small" style={btnStyle}
                   onClick={() => handleRestartGroup(record.id)}>
             <SyncOutlined/>{record.status === 'run' ? '重启' : '启动'}
           </Button>
-          <Button type="primary" size="small"
-                  style={btnStyle}
+          <Button type="primary" size="small" style={btnStyle}
                   onClick={() => handleStopGroup(record.id)}>
             <PoweroffOutlined/>暂停</Button>
-          <Button type="primary" size="small"
-                  style={btnStyle}>
+          <Button type="primary" size="small" style={btnStyle}>
             <Link to={`/detail/${record.id}`}><SolutionOutlined/>详情</Link>
           </Button>
         </div>
