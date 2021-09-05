@@ -21,7 +21,6 @@ export default {
   },
   effects: {
     * initData({id}, {put}) {
-      // todo 默认时间没设置
       const today = new Date()
       const month = today.getMonth() + 1 > 9 ? today.getMonth() + 1 : `0${today.getMonth() + 1}`
       const day = today.getDate() > 9 ? today.getDate() : `0${today.getDate()}`
@@ -69,13 +68,10 @@ export default {
     }
   },
   subscriptions: {
-    setup({history, dispatch}) {
-      const pathList = history.location.pathname.split('/')
+    setup({history}) {
       return history.listen(({pathname}) => {
         if (pathname === '/detail') {
           router.push('/')
-        } else if (pathList.length === 3 && pathList[1] === 'detail') {
-          dispatch({type: 'initData', id: pathList[2]})
         }
       })
     }

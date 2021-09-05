@@ -34,7 +34,6 @@ function checkStatus(res) {
     return res.json()
   }
   const errorText = codeMessage[res.statusText] || res.statusText
-  console.log(res.statusText);
   notification.error({
     message: `请求错误 ${res.status} ${res.statusText}`,
     description: errorText

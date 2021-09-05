@@ -28,7 +28,7 @@ class $id$ extends Component {
     this.id = props.match.params.id
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.id) {
       this.props.dispatch({type: 'group/fetchInfo', id: this.id})
     }

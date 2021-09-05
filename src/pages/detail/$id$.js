@@ -3,8 +3,9 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'dva'
-import {Card, Row, Col, Switch, DatePicker} from 'antd'
+import {Card, Row, Col, Switch, DatePicker, Button, Message} from 'antd'
 import moment from 'moment';
+import {ReloadOutlined} from "@ant-design/icons";
 
 import {Content} from "@/components/Layout";
 import styles from './index.scss'
@@ -17,8 +18,7 @@ class $id$ extends Component {
     this.id = props.match.params.id
   }
 
-  componentDidMount() {
-    // todo 如果当前时间是今天，就定时刷新log
+  componentWillMount() {
     if (this.id) {
       this.props.dispatch({type: 'detail/initData', id: this.id})
     }
@@ -39,6 +39,12 @@ class $id$ extends Component {
       type: 'detail/handleChanged',
       id: this.id,
       payload: {onlyShowError: checked}
+    })
+  }
+
+  handleRefresh = () => {
+    this.props.dispatch({type: 'detail/getGroupLogs', id: this.id}).then(() => {
+      Message.success('日志刷新成功！')
     })
   }
 
@@ -91,19 +97,21 @@ class $id$ extends Component {
             <Col span={2} style={colStyle}>
               <p style={{fontSize: 15}}>日志详情：</p>
             </Col>
-            <Col span={15}>
-            </Col>
+            <Col span={13}/>
             <Col span={4} style={{marginTop: 25}}>
               <p style={{display: "flex", alignItems: "center"}}>
                 <span style={{marginRight: 12, fontSize: 15}}>只显示错误日志</span>
                 <Switch checkedChildren="开启" unCheckedChildren="关闭"
-                        defaultChecked={this.props.onlyShowError}
+                        checked={this.props.onlyShowError}
                         onChange={(checked => this.handleSwitch(checked))}/></p>
             </Col>
             <Col span={3} style={colStyle}>
               <DatePicker format='YYYY/MM/DD'
-                          defaultValue={moment(this.props.logDate, 'YYYY/MM/DD')}
+                          value={moment(this.props.logDate, 'YYYY/MM/DD')}
                           onChange={(date) => this.handleDatePicker(date)}/>
+            </Col>
+            <Col span={2} style={{...colStyle, paddingRight: 2}}>
+              <Button onClick={this.handleRefresh}><ReloadOutlined/>刷新</Button>
             </Col>
           </Row>
           <Row>
@@ -112,8 +120,7 @@ class $id$ extends Component {
                 {this.props.logs.map(log =>
                   <p key={log.id}
                      className={`${styles.log} ${styles[colorType[log.type]]}`}
-                     dangerouslySetInnerHTML={{__html: log.msg}}
-                  />
+                     dangerouslySetInnerHTML={{__html: log.msg}}/>
                 )}
               </div>
             </Col>

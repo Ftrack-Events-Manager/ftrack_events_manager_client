@@ -12,7 +12,7 @@ import {
   CloseCircleOutlined
 } from "@ant-design/icons"
 import {connect} from 'dva'
-import {Link, router} from 'umi'
+import {Link} from 'umi'
 
 import {Content, Tool} from "@/components/Layout";
 import {Table} from "@/components/Table";
@@ -82,9 +82,9 @@ const Index = ({groups, loading, dispatch}) => {
                   onClick={() => handleStopGroup(record.id)}>
             <PoweroffOutlined/>暂停</Button>
           <Button type="primary" size="small"
-                  style={btnStyle}
-                  onClick={() => router.push(`/detail/${record.id}`)}>
-            <SolutionOutlined/>详情</Button>
+                  style={btnStyle}>
+            <Link to={`/detail/${record.id}`}><SolutionOutlined/>详情</Link>
+          </Button>
         </div>
       )
     },
@@ -93,8 +93,9 @@ const Index = ({groups, loading, dispatch}) => {
       key: 'edit',
       render: (text, record) => (
         <div>
-          <Button type="primary" size="small" style={btnStyle}
-                  onClick={() => router.push(`/group/${record.id}`)}>编辑</Button>
+          <Button type="primary" size="small" style={btnStyle}>
+            <Link to={`/group/${record.id}`}>编辑</Link>
+          </Button>
           <Popconfirm title="确定要删除该事件组吗？"
                       onConfirm={() => handleDelete(record)}>
             <Button type="danger" size="small">删除</Button>
