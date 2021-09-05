@@ -1,4 +1,5 @@
 import * as groupServices from './services'
+import * as groupsServices from '../services'
 
 export default {
   namespace: 'group',
@@ -8,7 +9,8 @@ export default {
     tableSelectionData: [],
     selectedRowKeys: [],
     modalVisible: false,
-    modalLoading: false
+    modalLoading: false,
+    groupNames: [],
   },
   reducers: {
     setData(state, {payload}) {
@@ -48,7 +50,8 @@ export default {
           tableSelectionData: [],
           selectedRowKeys: [],
           modalVisible: false,
-          modalLoading: false
+          modalLoading: false,
+          groupNames: [],
         }
       })
 
@@ -93,6 +96,15 @@ export default {
             tableSelectionData: res.data['events'],
             selectedRowKeys: res.data['events'].map(v => v['id']),
           }
+        })
+      }
+    },
+    * getGroupNames({_}, {call, put}) {
+      const res = yield call(groupsServices.fetch)
+      if (res && res.status === 'success') {
+        yield put({
+          'type': 'setData',
+          payload: {groupNames: res.data.map(e => e.name)}
         })
       }
     }

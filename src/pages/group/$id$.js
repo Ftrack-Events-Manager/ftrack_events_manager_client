@@ -54,14 +54,23 @@ class $id$ extends Component {
     this.props.form.validateFields(((errors, values) => {
       if (!errors) {
         this.props.dispatch({
-          type: 'group/update',
-          name: values['name'],
-          id: this.id
-        })
-        Message.success(`${values['name']}${this.id ? "更新" : "创建"}成功！`)
-        this.props.dispatch({
-          type: 'group/setData',
-          payload: {modalVisible: true}
+          type: 'group/getGroupNames'
+        }).then(() => {
+          if (this.props.groupNames.filter(e => e === values['name']).length > 0) {
+            return Message.error('当前事件组名称已存在')
+          }
+
+          this.props.dispatch({
+            type: 'group/update',
+            name: values['name'],
+            id: this.id
+          }).then(() => {
+            Message.success(`${values['name']}${this.id ? "更新" : "创建"}成功！`)
+            this.props.dispatch({
+              type: 'group/setData',
+              payload: {modalVisible: true}
+            })
+          })
         })
       }
     }))
