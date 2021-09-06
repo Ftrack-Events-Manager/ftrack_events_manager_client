@@ -35,7 +35,7 @@ const Header = ({location}) => {
           <Dropdown overlay={menu}>
             <a href="/">
               <Icon type="user"
-                    style={{marginRight: 3}}/> {localStorage.usernmame}
+                    style={{marginRight: 3}}/> {localStorage.username}
             </a>
           </Dropdown>
         </div>

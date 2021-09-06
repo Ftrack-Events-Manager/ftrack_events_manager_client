@@ -1,5 +1,8 @@
 /**
  * title: 添加事件组
+ * Routes:
+ *   - ./src/routes/PrivateRoute.js
+ * authority: ["admin","user"]
  */
 
 import React, {Component} from 'react';

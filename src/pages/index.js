@@ -1,5 +1,8 @@
 /**
  * title: 首页
+ * Routes:
+ *   - ./src/routes/PrivateRoute.js
+ * authority: ["admin","user"]
  */
 
 import React from 'react';

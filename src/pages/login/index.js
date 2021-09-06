@@ -1,5 +1,8 @@
 /**
  * title: 登录
+ * Routes:
+ *   - ./src/routes/PrivateRoute.js
+ * authority: ["admin","user"]
  */
 
 import React from 'react';
@@ -21,7 +24,7 @@ const Index = ({form}) => {
         login(values).then(res => {
           if (res.status === "success") {
             const {userId, type} = res.token
-            localStorage.setItem('usernmame', userId)
+            localStorage.setItem('username', userId)
             localStorage.setItem('authority', type === 0 ? 'admin' : 'user')
             router.push('/')
           } else {

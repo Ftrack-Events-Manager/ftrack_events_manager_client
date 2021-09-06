@@ -1,5 +1,8 @@
 /**
  * title: 事件详情
+ * Routes:
+ *   - ./src/routes/PrivateRoute.js
+ * authority: ["admin","user"]
  */
 import React, {Component} from 'react';
 import {connect} from 'dva'
