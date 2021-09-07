@@ -10,7 +10,7 @@ export default ({children, match, route}) => {
   }
 
   // 权限不够就返回主页
-  if (route.authority && !route.authority.includes(localStorage.authority)) {
+  if (route.authority && localStorage.authority && !route.authority.includes(localStorage.authority)) {
     router.push('/')
   }
 
